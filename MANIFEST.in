@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Qoro Quantum
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+graft src
+graft tests
+graft examples
+global-exclude __pycache__ *.py[cod] *client.log
+

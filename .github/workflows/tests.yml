@@ -1,0 +1,73 @@
+# SPDX-FileCopyrightText: 2026 Qoro Quantum
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "0 6 * * 1"  # Weekly, to catch new Deltakit and Maestro releases.
+  workflow_call:  # Run by publish.yml before it uploads.
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Install
+        run: uv pip install --system -e ".[test,examples]"
+
+      - name: Show versions
+        run: python -c "import deltakit, deltakit_maestro, maestro, stim, sinter, importlib.metadata as m; print('deltakit', m.version('deltakit'), '| deltakit-maestro', m.version('deltakit-maestro'), '| qoro-maestro', m.version('qoro-maestro'), '| stim', stim.__version__, '| sinter', sinter.__version__)"
+
+      - name: Test
+        run: pytest -v
+
+  dist:
+    name: Source distribution and wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build
+        run: |
+          python -m pip install build
+          python -m build
+
+      - name: Verify the sdist and wheel
+        # The sdist must hold the whole test suite and collect it when extracted. The
+        # wheel must install into a fresh environment and import from outside the checkout.
+        run: python scripts/verify_dist.py dist/ --run-tests
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uvx ruff check .
+      - run: uvx ruff format --check .
+      - name: SPDX headers
+        run: |
+          missing=$(grep -L "SPDX-License-Identifier: GPL-3.0-or-later" $(git ls-files '*.py' '*.toml' '*.yml'))
+          if [ -n "$missing" ]; then echo "::error::Missing SPDX header: $missing"; exit 1; fi
+
