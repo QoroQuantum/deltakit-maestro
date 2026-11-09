@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deltakit-maestro"
-version = "0.2.0"
+version = "0.1.0"
 description = "Qoro Maestro simulator backend for Riverlane Deltakit QEC circuits"
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
