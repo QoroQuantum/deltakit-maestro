@@ -24,7 +24,7 @@ simulation type follows the noise:
 | any run, with `simulation_type=` set | that simulation type |
 
 `backend.config_for(noise_type, **noise).simulation_type` says which one a run uses.
-Pauli frames sample a Clifford circuit with Pauli noise about as fast as Stim does; coherent
+Pauli frames sample a Clifford circuit with Pauli noise as fast as Stim does; coherent
 over-rotations, which no Clifford simulator can run, need the matrix product state.
 
 ## Install
@@ -237,13 +237,13 @@ Maestro would close the rest of the gap.
 Measured on an Apple M4 Pro (12 cores), rotated surface code memory, SI1000(0.002)
 noise, d rounds, detection events in shots per second.
 
-**Pauli noise** is sampled on Pauli frames, on one thread, about as fast as Stim's own
-detector sampler from d=5 up (1M shots):
+**Pauli noise** is sampled on Pauli frames, on one thread, as fast as Stim's own
+detector sampler (1M shots, Maestro 0.3.14):
 
 | | d=3 | d=5 | d=7 | d=9 |
 |---|---|---|---|---|
-| Maestro, `compile_sampler(...).sample_detection_events` | 9.8M | 2.2M | 490k | 220k |
-| Stim, `compile_detector_sampler().sample` | 14M | 2.4M | 500k | 220k |
+| Maestro, `compile_sampler(...).sample_detection_events` | 14.8M | 2.64M | 530k | 240k |
+| Stim, `compile_detector_sampler().sample` | 14.9M | 2.55M | 510k | 230k |
 
 Under `sinter.collect` decoding takes most of the time. The [[72,12,6]] bivariate
 bicycle code (144 qubits, SI1000(0.003), 3 rounds, in `example_deltakit_codes.py`)
@@ -251,7 +251,7 @@ samples at about 46 µs/shot.
 
 **`T1` decay** is not a Pauli channel, so the stabilizer runs it shot by shot: about
 19,000 shots/s at d=3 and 2,100 at d=5 on one thread. One sampler spreads its shots over
-every core, about 36,000 and 10,000 shots/s here. `max_simulators=` caps the threads.
+every core, about 25,000 and 11,000 shots/s here. `max_simulators=` caps the threads.
 
 **Coherent noise** runs on an MPS: about 57 ms a shot per core on the rotated d=3 code at
 χ=32. One sampler again uses every core, about 6 ms a shot here, so a single
