@@ -59,3 +59,13 @@ def test_coherent_noise_example(capsys):
     assert "MatrixProductState" in out
     rows = [line for line in out.splitlines() if line.strip().startswith(("0.01", "0.03"))]
     assert len(rows) == 4
+
+
+def test_custom_noise_model_example(capsys):
+    out = run_example("example_custom_noise_model", capsys)
+    assert "has_1q=True, has_2q=True, has_t1=True, has_readout=True" in out
+    assert "has_coherent=True, has_crosstalk=True" in out
+    assert "Uniform SI1000 baseline" in out
+    assert "+ Coherent rot & ZZ crosstalk" in out
+    sweep = out.split("3. Multi-worker sinter.collect")[1]
+    assert sweep.count("2000") == 3

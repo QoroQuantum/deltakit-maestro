@@ -138,8 +138,9 @@ than failing inside worker processes.
   extracts gate rates and preserves non-gate noise automatically.
 - Switching between Pauli frame sampling, T1 decay, and coherent MPS simulation
   only requires changing `noise_type` or keyword arguments.
-- **Next:** [A surface code sweep](surface_code.md) puts this together on a
-  17-qubit Deltakit surface code across multiple Sinter workers and MPS.
+- **Next:** [Custom Maestro noise model](custom_noise_model.md) shows how to
+  configure per-qubit calibration rates, asymmetric readout, and crosstalk on a
+  custom `maestro.NoiseModel`.
 
 ---
 

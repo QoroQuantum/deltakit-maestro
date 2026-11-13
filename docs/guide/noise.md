@@ -90,4 +90,7 @@ clean_gates = strip_gate_noise(stim_circuit)  # the circuit without its gate noi
 model = build_noise_model(clean_gates, 'coherent', p_2q=rates['p_2q'])
 ```
 
-The [API reference](../api.rst) lists their arguments.
+The [API reference](../api.rst) lists their arguments, and
+[Custom Maestro noise model](../examples/custom_noise_model.md) shows how to
+customize per-qubit and per-coupler channels on the resulting `maestro.NoiseModel`
+and sample it with `MaestroCompiledSampler` and `MaestroSinterSampler`.

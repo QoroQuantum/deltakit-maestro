@@ -26,11 +26,11 @@ or jump straight to the topic you need.
 
 ### 1. Fundamentals
 
-Start here to learn the core `MaestroBackend` sampling API and how circuit noise
+Start here to learn the core `MaestroBackend` sampling API, how circuit noise
 is parsed and routed between Maestro's Stabilizer and Matrix Product State
-simulators.
+simulators, and how to attach a custom `maestro.NoiseModel`.
 
-::::{grid} 1 1 2 2
+::::{grid} 1 1 2 3
 :gutter: 3
 
 :::{grid-item-card} 1. A plain Stim circuit
@@ -59,6 +59,19 @@ simulators.
 ~2 s · `examples/example_noise_modes.py`
 :::
 
+:::{grid-item-card} 3. Custom Maestro noise model
+:link: custom_noise_model
+:link-type: doc
+
+**Goal:** Configure per-qubit calibration, asymmetric readout, and crosstalk.
+
+- Seed a `maestro.NoiseModel` from `build_noise_model()` and override hot qubits/couplers
+- Direct sampling with `MaestroCompiledSampler` and Sinter sweeps with `MaestroSinterSampler`
+
++++
+~6 s · `examples/example_custom_noise_model.py`
+:::
+
 ::::
 
 ### 2. Scaling & Code Families
@@ -69,7 +82,7 @@ Deltakit's topological and qLDPC code families.
 ::::{grid} 1 1 2 2
 :gutter: 3
 
-:::{grid-item-card} 3. A surface code sweep
+:::{grid-item-card} 4. A surface code sweep
 :link: surface_code
 :link-type: doc
 
@@ -82,7 +95,7 @@ Deltakit's topological and qLDPC code families.
 ~12 s · `examples/example_surface_code.py`
 :::
 
-:::{grid-item-card} 4. Every Deltakit code family
+:::{grid-item-card} 5. Every Deltakit code family
 :link: deltakit_codes
 :link-type: doc
 
@@ -105,7 +118,7 @@ coherent over-rotations and verify convergence with bond dimension χ.
 ::::{grid} 1 1 2 2
 :gutter: 3
 
-:::{grid-item-card} 5. Coherent noise on a repetition code
+:::{grid-item-card} 6. Coherent noise on a repetition code
 :link: coherent_noise
 :link-type: doc
 
@@ -118,7 +131,7 @@ coherent over-rotations and verify convergence with bond dimension χ.
 ~3 s · `examples/example_coherent_noise.py`
 :::
 
-:::{grid-item-card} 6. Bond dimension
+:::{grid-item-card} 7. Bond dimension
 :link: bond_dimension
 :link-type: doc
 
@@ -135,7 +148,7 @@ coherent over-rotations and verify convergence with bond dimension χ.
 
 ### Visual Notebook
 
-::::{card} 7. Coherent noise on a distance-3 surface code
+::::{card} 8. Coherent noise on a distance-3 surface code
 :link: coherent_noise_d3
 :link-type: doc
 
@@ -158,6 +171,7 @@ Coherent noise on the d=3 surface code against its Pauli twirl and SI1000.
 
 stim_circuit
 noise_modes
+custom_noise_model
 surface_code
 deltakit_codes
 coherent_noise
