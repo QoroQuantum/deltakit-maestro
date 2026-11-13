@@ -42,7 +42,6 @@ simulators, and how to attach a custom `maestro.NoiseModel`.
 - `simulate()`, `compile_sampler()`, and `sinter.collect`
 - Bit-for-bit noiseless check against Stim and manual PyMatching decoding
 
-+++
 ~1 s · `examples/example_stim_circuit.py`
 :::
 
@@ -55,7 +54,6 @@ simulators, and how to attach a custom `maestro.NoiseModel`.
 - `noise_params_from_stim()` and `strip_gate_noise()`
 - All four `noise_type` modes (`'pauli'`, `'coherent'`, `'full'`, `'none'`) and overrides
 
-+++
 ~2 s · `examples/example_noise_modes.py`
 :::
 
@@ -68,7 +66,6 @@ simulators, and how to attach a custom `maestro.NoiseModel`.
 - Seed a `maestro.NoiseModel` from `build_noise_model()` and override hot qubits/couplers
 - Direct sampling with `MaestroCompiledSampler` and Sinter sweeps with `MaestroSinterSampler`
 
-+++
 ~6 s · `examples/example_custom_noise_model.py`
 :::
 
@@ -91,7 +88,6 @@ Deltakit's topological and qLDPC code families.
 - Deltakit `RotatedPlanarCode` + `SI1000Noise`
 - 4-worker `sinter.collect` sweep and coherent vs. Pauli twirl comparison
 
-+++
 ~12 s · `examples/example_surface_code.py`
 :::
 
@@ -104,7 +100,6 @@ Deltakit's topological and qLDPC code families.
 - Graphlike DEM decoding with PyMatching
 - Non-graphlike `[[72,12,6]]` qLDPC decoding with BP-OSD
 
-+++
 ~20 s · `examples/example_deltakit_codes.py`
 :::
 
@@ -127,7 +122,6 @@ coherent over-rotations and verify convergence with bond dimension χ.
 - `noise_type="coherent"` on MPS vs. `twirled_circuit()` on Stabilizer
 - Logical error ratio and detection-event ratio decoded with the twirl's DEM
 
-+++
 ~3 s · `examples/example_coherent_noise.py`
 :::
 
@@ -140,7 +134,6 @@ coherent over-rotations and verify convergence with bond dimension χ.
 - Noiseless truncation check (`simulation_type=MPS`, `noise_type="none"`)
 - Convergence sweep showing how under-resolved χ inflates coherent rates
 
-+++
 ~50 s · `examples/example_bond_dimension.py`
 :::
 
@@ -162,7 +155,6 @@ strengths `p`, plus per-detector rate maps and event-count distributions.
 Coherent noise on the d=3 surface code against its Pauli twirl and SI1000.
 ```
 
-+++
 ~40 s · `examples/coherent_noise_d3.ipynb`
 ::::
 

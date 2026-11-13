@@ -47,6 +47,7 @@ exclude_patterns = ["_build", "_generated", "jupyter_execute"]
 
 myst_enable_extensions = ["colon_fence", "dollarmath"]
 myst_heading_anchors = 3
+sd_card_legacy_separators = False
 
 # The example notebook lives in examples/ with the scripts, outside the source
 # tree, so copy it in. It's shown with the outputs saved in it rather than run
