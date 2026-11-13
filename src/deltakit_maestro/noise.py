@@ -170,7 +170,7 @@ def build_noise_model(
         readout_error: Symmetric measurement flip probability.
         t1: Per-gate ``T1`` decay probability γ. ``DensityMatrix`` and
             ``MatrixProductOperator`` apply amplitude damping γ; every other
-            simulation type resets the qubit to |0⟩ with probability γ.
+            simulation type resets the qubit to ``|0⟩`` with probability γ.
         coherent: Infidelity of the coherent over-rotation, applied per qubit
             after every gate, one- or two-qubit. Defaults to ``p_2q``.
     """
@@ -215,7 +215,7 @@ def pauli_twirl_circuit(
     runs as an idle. The circuit's own Stim noise is kept. The twirl is exact
     for the Pauli layers; the coherent over-rotation twirls to
     ``DEPOLARIZE1(coherent)``. ``T1`` decay γ twirls to
-    ``PAULI_CHANNEL_1(γ/4, γ/4, γ/4)``, the reset to |0⟩ with probability γ
+    ``PAULI_CHANNEL_1(γ/4, γ/4, γ/4)``, the reset to ``|0⟩`` with probability γ
     that Maestro's pure-state simulation types run.
 
     Args:

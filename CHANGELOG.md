@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+- A documentation site, at
+  [qoroquantum.github.io/deltakit-maestro](https://qoroquantum.github.io/deltakit-maestro/),
+  built with Sphinx: the README's overview, a guide, the example notebook with
+  its plots, each example script with the output of a run made by the build, an
+  API reference from the docstrings, and this changelog. The guide holds what
+  the README used to cover in depth: the noise modes, the decoder's detector
+  error model, coherent noise, the bond dimension, performance and gotchas. The
+  Docs workflow builds the site on every pull request, failing on any Sphinx
+  warning or failing example, and publishes it from `main`.
+  `pip install -e ".[docs,examples]"` installs what the build needs, and the
+  README and the PyPI Documentation link point at the site.
+
 ## [0.1.0]
 
 First release.

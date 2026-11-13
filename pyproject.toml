@@ -36,9 +36,18 @@ dependencies = [
 [project.optional-dependencies]
 test = ["pytest>=8", "pymatching>=2.2"]
 examples = ["pymatching>=2.2", "ldpc>=2.0"]
+# Builds the documentation in docs/. The build also runs the examples, so
+# install it with the examples extra: pip install -e ".[docs,examples]".
+docs = [
+    "sphinx>=8",
+    "furo>=2024.8",
+    "myst-nb>=1.1",
+    "sphinx-copybutton>=0.5",
+]
 
 [project.urls]
 Homepage = "https://github.com/QoroQuantum/deltakit-maestro"
+Documentation = "https://qoroquantum.github.io/deltakit-maestro/"
 Repository = "https://github.com/QoroQuantum/deltakit-maestro"
 Issues = "https://github.com/QoroQuantum/deltakit-maestro/issues"
 

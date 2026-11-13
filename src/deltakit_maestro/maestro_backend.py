@@ -97,6 +97,7 @@ class SimulationResult:
 
     @property
     def num_measurements(self) -> int:
+        """Measurements in each shot's record."""
         return self.measurements.shape[1]
 
 

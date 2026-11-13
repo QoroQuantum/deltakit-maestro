@@ -11,3 +11,9 @@ build/
 
 # Written by deltakit on import
 *client.log
+
+# Sphinx output, what the build makes from examples/, and the notebook it copies in.
+docs/_build/
+docs/_generated/
+docs/jupyter_execute/
+docs/examples/*.ipynb
