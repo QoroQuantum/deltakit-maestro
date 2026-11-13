@@ -19,8 +19,9 @@ changelog
 - [Guide](guide.md): sampling and Sinter, how each run is simulated, the noise
   modes, the decoder's detector error model, coherent noise and the bond
   dimension, and performance, one topic per page.
-- [Examples](examples/index.md): a notebook with plots of coherent noise on the
-  d=3 surface code, and runnable scripts shown with their output.
+- [Examples](examples/index.md): step-by-step walkthrough guides backed by
+  runnable scripts, plus a notebook with plots of coherent noise on the d=3
+  surface code.
 - [API reference](api.rst): every class and function.
 
 deltakit-maestro is open source under GPL-3.0-or-later, at

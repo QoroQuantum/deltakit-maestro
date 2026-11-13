@@ -1,48 +1,166 @@
 # Examples
 
-A notebook and six scripts, from the repository's
-[examples/](https://github.com/QoroQuantum/deltakit-maestro/tree/main/examples)
-folder. To run them, install the `examples` extra from the repository root and
-run any script from there:
+Worked walkthroughs and a notebook backed by the runnable scripts in
+[examples/](https://github.com/QoroQuantum/deltakit-maestro/tree/main/examples).
+Each guide breaks down a live script step by step alongside its build-time
+output, so every number and snippet matches the current code.
+
+:::{note} Running the examples locally
+Install the `examples` extra from the repository root and run any script directly:
 
 ```bash
 pip install -e ".[examples]"
-python examples/example_coherent_noise.py
+python examples/example_stim_circuit.py
 ```
 
-The notebook also needs `matplotlib` and Jupyter. Each script's page shows the
-output of the run that built these pages, so the numbers on it are current. The
-test suite also runs the noise modes, Stim circuit and coherent noise scripts.
+The notebook (`coherent_noise_d3.ipynb`) also requires `matplotlib` and Jupyter.
+Timings shown below are from a 12-core laptop; Stim's own sampler appears in a
+few guides only as an independent reference. The test suite also runs the
+Stim circuit, noise modes, and coherent noise scripts.
+:::
+
+## Learning path
+
+Follow the three tracks below in order if you are new to `deltakit-maestro`,
+or jump straight to the topic you need.
+
+### 1. Fundamentals
+
+Start here to learn the core `MaestroBackend` sampling API and how circuit noise
+is parsed and routed between Maestro's Stabilizer and Matrix Product State
+simulators.
+
+::::{grid} 1 1 2 2
+:gutter: 3
+
+:::{grid-item-card} 1. A plain Stim circuit
+:link: stim_circuit
+:link-type: doc
+
+**Goal:** Sample, seed, decode, and sweep a Stim circuit without Deltakit.
+
+- `simulate()`, `compile_sampler()`, and `sinter.collect`
+- Bit-for-bit noiseless check against Stim and manual PyMatching decoding
+
++++
+~1 s · `examples/example_stim_circuit.py`
+:::
+
+:::{grid-item-card} 2. Noise modes
+:link: noise_modes
+:link-type: doc
+
+**Goal:** See how `MaestroBackend` splits gate noise from circuit noise.
+
+- `noise_params_from_stim()` and `strip_gate_noise()`
+- All four `noise_type` modes (`'pauli'`, `'coherent'`, `'full'`, `'none'`) and overrides
+
++++
+~2 s · `examples/example_noise_modes.py`
+:::
+
+::::
+
+### 2. Scaling & Code Families
+
+Move from single circuits to multi-worker Sinter parameter sweeps and across
+Deltakit's topological and qLDPC code families.
+
+::::{grid} 1 1 2 2
+:gutter: 3
+
+:::{grid-item-card} 3. A surface code sweep
+:link: surface_code
+:link-type: doc
+
+**Goal:** Benchmark a d=3 rotated surface code under SI1000 and coherent noise.
+
+- Deltakit `RotatedPlanarCode` + `SI1000Noise`
+- 4-worker `sinter.collect` sweep and coherent vs. Pauli twirl comparison
+
++++
+~12 s · `examples/example_surface_code.py`
+:::
+
+:::{grid-item-card} 4. Every Deltakit code family
+:link: deltakit_codes
+:link-type: doc
+
+**Goal:** Run repetition, planar, toric, and bivariate bicycle codes unchanged.
+
+- Graphlike DEM decoding with PyMatching
+- Non-graphlike `[[72,12,6]]` qLDPC decoding with BP-OSD
+
++++
+~20 s · `examples/example_deltakit_codes.py`
+:::
+
+::::
+
+### 3. Coherent Noise & MPS Precision
+
+Use Maestro's Matrix Product State (MPS) engine to simulate non-Clifford
+coherent over-rotations and verify convergence with bond dimension χ.
+
+::::{grid} 1 1 2 2
+:gutter: 3
+
+:::{grid-item-card} 5. Coherent noise on a repetition code
+:link: coherent_noise
+:link-type: doc
+
+**Goal:** Measure the coherence penalty over a matched Pauli twirl.
+
+- `noise_type="coherent"` on MPS vs. `twirled_circuit()` on Stabilizer
+- Logical error ratio and detection-event ratio decoded with the twirl's DEM
+
++++
+~3 s · `examples/example_coherent_noise.py`
+:::
+
+:::{grid-item-card} 6. Bond dimension
+:link: bond_dimension
+:link-type: doc
+
+**Goal:** Choose and verify the MPS bond dimension χ for coherent runs.
+
+- Noiseless truncation check (`simulation_type=MPS`, `noise_type="none"`)
+- Convergence sweep showing how under-resolved χ inflates coherent rates
+
++++
+~50 s · `examples/example_bond_dimension.py`
+:::
+
+::::
+
+### Visual Notebook
+
+::::{card} 7. Coherent noise on a distance-3 surface code
+:link: coherent_noise_d3
+:link-type: doc
+
+An interactive Jupyter notebook with publication-ready figures comparing coherent
+over-rotations (`χ=32`) against their Pauli twirl and SI1000 across noise
+strengths `p`, plus per-detector rate maps and event-count distributions.
 
 ```{figure} ../_generated/coherent_vs_twirl.png
 :alt: Two plots against noise strength p. Left, logical error probability: coherent noise is highest at every p, then its Pauli twirl, then SI1000. Right, the ratio of coherent noise to its twirl, between 1.1 and 1.3.
-:target: coherent_noise_d3.html
 
-From the notebook: coherent noise on the d=3 surface code against its Pauli
-twirl and SI1000.
+Coherent noise on the d=3 surface code against its Pauli twirl and SI1000.
 ```
 
-| Example | What it shows | Run time |
-|---|---|---|
-| [Coherent noise on a distance-3 surface code](coherent_noise_d3.ipynb) | The notebook, with plots: coherent noise on the d=3 surface code against its Pauli twirl and SI1000, the χ check, a sweep of the logical error probability, and per-detector rates | ~40 s |
-| [Noise modes](noise_modes.md) | How the noise is read from a circuit, split into gate and other noise, and what each `noise_type` and override runs, on which simulation type, for a Deltakit and a Stim-generated circuit | ~2 s |
-| [A plain Stim circuit](stim_circuit.md) | Raw measurements, detection events, observable flips, seeds, decoding by hand and `sinter.collect` on a Stim circuit, without Deltakit | ~1 s |
-| [Coherent noise on a repetition code](coherent_noise.md) | Coherent over-rotation against its Pauli twirl: about 1.5× the logical errors and detection events | ~3 s |
-| [A surface code sweep](surface_code.md) | A d=3 Deltakit surface code: Pauli noise sampled directly and through `sinter.collect`, then coherent noise on an MPS against its twirl | ~12 s |
-| [Every Deltakit code family](deltakit_codes.md) | Repetition, rotated and unrotated planar and toric codes with PyMatching, and the [[72,12,6]] bivariate bicycle code with BP-OSD | ~20 s |
-| [Bond dimension](bond_dimension.md) | Setting the MPS bond dimension χ, the noiseless truncation check, and coherent noise converging in χ | ~50 s |
-
-Times are on a 12-core laptop. Stim's own sampler appears in a few examples only
-as an independent reference that Maestro's results agree with.
++++
+~40 s · `examples/coherent_noise_d3.ipynb`
+::::
 
 ```{toctree}
 :hidden:
 
-coherent_noise_d3
-noise_modes
 stim_circuit
-coherent_noise
+noise_modes
 surface_code
 deltakit_codes
+coherent_noise
 bond_dimension
+coherent_noise_d3
 ```
