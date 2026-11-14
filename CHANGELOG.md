@@ -1,7 +1,16 @@
 # Changelog
 
-## [Unreleased]
+## [0.1.1]
 
+- No upper bound on Python of its own: `requires-python` is now `>=3.10`, and
+  Deltakit's own metadata sets the ceiling. 0.1.0 capped it at `<3.14`, which
+  followed Deltakit 0.8 and 0.9; Deltakit 0.10.0 and 0.10.1 support 3.10 to
+  3.14, and 0.10.2 supports 3.11 to 3.15. The test suite passes on 3.14, and CI
+  now tests it.
+- `examples/example_custom_noise_model.py`: build a custom `maestro.NoiseModel`
+  from a Deltakit SI1000 circuit (a hot qubit and coupler, asymmetric readout,
+  directed coherent over-rotations and ZZ crosstalk) and sample it with
+  `MaestroCompiledSampler` and `sinter.collect`.
 - A documentation site, at
   [qoroquantum.github.io/deltakit-maestro](https://qoroquantum.github.io/deltakit-maestro/),
   built with Sphinx: the README's overview, a guide, the example notebook with

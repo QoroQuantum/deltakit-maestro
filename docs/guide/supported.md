@@ -34,7 +34,8 @@ cloud `client`, so the examples don't show them.
 
 ## Versions
 
-Python 3.10 to 3.13 (`deltakit` requires `<3.14`), on macOS and Linux.
+Python 3.10 or later, within what Deltakit supports (3.10 to 3.15 across its
+current releases), on macOS and Linux. CI tests 3.10 to 3.14.
 
 The dependencies are `numpy`, `deltakit>=0.8.0` (tested on 0.8.0, 0.9.0 and
 0.10.2, with Python 3.12, Stim and Sinter 1.16 and PyMatching 2.4) and

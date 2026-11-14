@@ -32,7 +32,8 @@ over-rotations, which no Clifford simulator can run, need the matrix product sta
 
 ## Install
 
-Needs Python **3.10–3.13** (`deltakit` requires `<3.14`).
+Needs Python **3.10 or later**, within what Deltakit supports (3.10 to 3.15
+across its current releases). Tested on 3.10 to 3.14.
 
 ```bash
 uv venv --python 3.12 .venv
