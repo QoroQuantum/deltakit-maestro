@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Qoro Quantum
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Deltakit 0.9.0 with the subpackages it was released with (2026-07-09). Its
+# metapackage only sets their minimums, so an unpinned install gets today's.
+# Used by the deltakit job in .github/workflows/tests.yml.
+deltakit==0.9.0
+deltakit-circuit==0.9.0
+deltakit-core==0.9.0
+deltakit-decode==0.9.0
+deltakit-explorer==0.9.0
+# Released with 0.2.0, which crashes once Stim is imported too, as this package
+# does (deltakit#310). 0.2.4 fixed it; deltakit-circuit 0.9.0 allows >=0.2,<0.3.
+deltakit-stim==0.2.4

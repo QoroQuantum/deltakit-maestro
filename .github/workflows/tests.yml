@@ -39,6 +39,42 @@ jobs:
       - name: Test
         run: pytest -v
 
+  # The job above gets the latest Deltakit. This one pins each Deltakit release
+  # the docs say is tested to the subpackages it was released with: the
+  # metapackages before 0.10 only set their minimums, so `deltakit==0.8.0` alone
+  # would install today's subpackages.
+  deltakit:
+    name: Deltakit ${{ matrix.deltakit }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        deltakit: ["0.8.0", "0.9.0", "0.10.2"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v4
+
+      - name: Install
+        run: uv pip install --system -e ".[test,examples]" -c .github/constraints/deltakit-${{ matrix.deltakit }}.txt
+
+      - name: Show versions
+        run: |
+          python - <<'EOF'
+          import importlib.metadata as m
+          names = ("deltakit", "qoro-maestro", "stim", "sinter", "pymatching")
+          found = {d.metadata["Name"].lower(): d.version for d in m.distributions()}
+          print(" | ".join(f"{n} {v}" for n, v in sorted(found.items()) if n.startswith(names)))
+          EOF
+
+      - name: Test
+        run: pytest -v
+
   dist:
     name: Source distribution and wheel
     runs-on: ubuntu-latest

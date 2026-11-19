@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Qoro Quantum
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Deltakit 0.8.0 with the subpackages it was released with (2026-03-09). Its
+# metapackage only sets their minimums, so an unpinned install gets today's.
+# Used by the deltakit job in .github/workflows/tests.yml.
+deltakit==0.8.0
+deltakit-circuit==0.8.0
+deltakit-core==0.8.0
+deltakit-decode==0.8.0
+deltakit-explorer==0.8.0

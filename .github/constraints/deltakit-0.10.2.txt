@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Qoro Quantum
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Deltakit 0.10.2 with the subpackages it was released with (2026-10-12), so
+# later subpackage releases don't change what this job tests.
+# Used by the deltakit job in .github/workflows/tests.yml.
+deltakit==0.10.2
+deltakit-circuit==0.9.2
+deltakit-compile==0.1.0
+deltakit-core==0.9.2
+deltakit-decode==0.9.2
+deltakit-explorer==0.9.4
+deltakit-stim==0.2.7
+deltakit-visualise==0.4.0

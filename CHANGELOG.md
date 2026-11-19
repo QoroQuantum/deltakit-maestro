@@ -6,6 +6,13 @@
   where coherent noise is practical, and installs from PyPI
   (`pip install deltakit-maestro`) rather than from a clone. It gains PyPI,
   Python, Tests and Docs badges.
+- CI tests Deltakit 0.8.0, 0.9.0 and 0.10.2 as released: a new job pins each to
+  the subpackages it shipped with, from `.github/constraints/`. The docs said
+  these versions were tested, but Deltakit 0.8.0 and 0.9.0 only set minimums
+  for their subpackages, so installing either one got today's subpackages. All
+  three pass. Deltakit 0.9.0 shipped with `deltakit-stim` 0.2.0, which crashes
+  once Stim is imported too (deltakit#310), so its job uses 0.2.4, the first
+  fixed release. The docs now say so.
 
 ## [0.1.2]
 
