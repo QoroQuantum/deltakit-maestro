@@ -394,15 +394,44 @@ def test_t1_noise_in_as_sinter_task_and_simulation(si1000):
     assert result.detection_events.any()
 
 
-@pytest.mark.parametrize("simulation_type", [None, MPS, maestro.SimulationType.DensityMatrix])
-def test_t1_dem_matches_what_maestro_simulates(simulation_type):
+@pytest.mark.parametrize(
+    "simulation_type, noise",
+    [
+        (None, {}),  # Stabilizer: a sampled reset
+        (None, {"noise_type": "coherent", "coherent": 1e-12}),  # automatic MPS: damping
+        (MPS, {}),
+        (maestro.SimulationType.Statevector, {}),
+        (maestro.SimulationType.DensityMatrix, {}),
+        (maestro.SimulationType.TensorNetwork, {}),  # a sampled reset
+    ],
+)
+def test_t1_dem_matches_what_maestro_simulates(simulation_type, noise):
     """|+> after one gate dephases at γ/2 under a sampled reset, (1-√(1-γ))/2 under damping."""
     circuit = stim.Circuit("RX 0\nZ 0\nMX 0")
     backend = MaestroBackend(simulation_type=simulation_type)
-    flips = 1 - backend.simulate(circuit, 4000, seed=1, t1=0.4).measurements.mean()
-    twirled = backend.twirled_circuit(circuit, t1=0.4)
+    flips = 1 - backend.simulate(circuit, 4000, seed=1, t1=0.4, **noise).measurements.mean()
+    twirled = backend.twirled_circuit(circuit, t1=0.4, **noise)
     expected = 1 - twirled.compile_sampler(seed=1).sample(100_000).mean()
     assert flips == pytest.approx(expected, abs=0.03)
+
+
+@pytest.mark.parametrize(
+    "simulator_type, simulation_type, damping",
+    [
+        (maestro.SimulatorType.QCSim, MPS, True),
+        (maestro.SimulatorType.QiskitAer, maestro.SimulationType.Statevector, True),
+        (maestro.SimulatorType.CompositeQCSim, maestro.SimulationType.Statevector, True),
+        (maestro.SimulatorType.Gpu, maestro.SimulationType.Statevector, False),
+        (maestro.SimulatorType.Gpu, maestro.SimulationType.DensityMatrix, True),
+        (maestro.SimulatorType.QCSim, STABILIZER, False),
+    ],
+)
+def test_t1_twirl_follows_the_engine(simulator_type, simulation_type, damping):
+    """Only QCSim and Qiskit Aer draw damping branches on a pure state; GPUs reset."""
+    backend = MaestroBackend(simulator_type=simulator_type, simulation_type=simulation_type)
+    twirled = backend.twirled_circuit(stim.Circuit("X 0"), t1=0.36)
+    z = (1 - 0.8) ** 2 / 4 if damping else 0.09  # √(1-γ) = 0.8
+    assert twirled[1].gate_args_copy() == pytest.approx([0.09, 0.09, z])
 
 
 def test_noise_model_for_task(si1000):

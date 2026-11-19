@@ -169,8 +169,11 @@ def build_noise_model(
         p_2q: Two-qubit depolarizing probability after two-qubit gates.
         readout_error: Symmetric measurement flip probability.
         t1: Per-gate ``T1`` decay probability γ. ``DensityMatrix`` and
-            ``MatrixProductOperator`` apply amplitude damping γ; every other
-            simulation type resets the qubit to ``|0⟩`` with probability γ.
+            ``MatrixProductOperator`` apply amplitude damping γ, and
+            ``Statevector`` and ``MatrixProductState`` draw one of its branches
+            each shot on the QCSim and Qiskit Aer engines. Every other
+            simulation type and engine resets the qubit to ``|0⟩`` with
+            probability γ.
         coherent: Infidelity of the coherent over-rotation, applied per qubit
             after every gate, one- or two-qubit. Defaults to ``p_2q``.
     """
@@ -216,12 +219,14 @@ def pauli_twirl_circuit(
     for the Pauli layers; the coherent over-rotation twirls to
     ``DEPOLARIZE1(coherent)``. ``T1`` decay γ twirls to
     ``PAULI_CHANNEL_1(γ/4, γ/4, γ/4)``, the reset to ``|0⟩`` with probability γ
-    that Maestro's pure-state simulation types run.
+    that ``Stabilizer`` and the other simulation types that draw no channel
+    from the state run.
 
     Args:
         amplitude_damping: Twirl ``T1`` as amplitude damping γ instead, to
             ``PAULI_CHANNEL_1(γ/4, γ/4, (1-√(1-γ))²/4)``, as ``DensityMatrix``
-            and ``MatrixProductOperator`` simulate it.
+            and ``MatrixProductOperator`` simulate it, and ``Statevector`` and
+            ``MatrixProductState`` on the QCSim and Qiskit Aer engines.
     """
     if noise_type not in NOISE_TYPES:
         raise ValueError(f"noise_type must be one of {NOISE_TYPES}, got {noise_type!r}")

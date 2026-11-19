@@ -30,12 +30,12 @@ twirl = backend.simulate(backend.twirled_circuit(noisy, noise_type='coherent'), 
 ```
 
 The twirl runs on Pauli frames, so it can take far more shots than the MPS run.
-On the d=3 rotated surface code, coherent noise gives about 11–16% more
+On the d=3 rotated surface code, coherent noise gives about 12–19% more
 detection events than its twirl, and a higher logical error probability at
 every strength tested:
 
 ```{figure} ../_generated/coherent_vs_twirl.png
-:alt: Two plots against noise strength p from 0.003 to 0.01. Left, logical error probability on log axes: coherent noise is highest at every p, then its Pauli twirl, then SI1000. Right, coherent over twirl: the logical error ratio falls from 1.32 to 1.15 with wide error bars, and the detection-event ratio stays between 1.11 and 1.16.
+:alt: Two plots against noise strength p from 0.003 to 0.01. Left, logical error probability on log axes: coherent noise is highest at every p, then its Pauli twirl, then SI1000. Right, coherent over twirl: the logical error ratio is 1.67 at p = 0.003 and 1.23 at p = 0.01, with wide error bars, and the detection-event ratio stays between 1.12 and 1.19.
 
 The d=3 rotated surface code, 3 rounds: coherent noise (MPS, χ=32, 800 shots a
 point) against its Pauli twirl and SI1000 (stabilizer, 200,000 shots each), all
@@ -44,8 +44,8 @@ decoded by PyMatching with the twirl's detector error model. From the
 ```
 
 The excess is spread across the code. Most detectors fire more often under
-coherent noise, the mid-circuit rounds most of all, and shots with no detection
-event at all become rarer:
+coherent noise, in every round, and shots with no detection event at all become
+rarer:
 
 ```{figure} ../_generated/coherent_per_detector.png
 :alt: Two plots at p = 0.01. Left, each detector's rate under coherent noise against under the twirl: most points lie above the diagonal. Right, the distribution of detection events per shot: the coherent distribution is shifted to more events than the twirl's.
@@ -74,9 +74,9 @@ PyMatching):
 
 | Noise | LEP |
 |---|---|
-| SI1000 Pauli (stabilizer) | 0.1990 ± 0.0009 |
-| Pauli twirl of `'coherent'` (stabilizer) | 0.2330 ± 0.0009 |
-| `'coherent'` (MPS, 800 shots) | 0.270 ± 0.016 |
+| SI1000 Pauli (stabilizer) | 0.1987 ± 0.0009 |
+| Pauli twirl of `'coherent'` (stabilizer) | 0.2328 ± 0.0009 |
+| `'coherent'` (MPS, 800 shots) | 0.288 ± 0.016 |
 
 So `'coherent'` and `'pauli'` at the same p differ by about 17% in LEP from
 strength alone, before any effect of coherence. To isolate coherence, compare

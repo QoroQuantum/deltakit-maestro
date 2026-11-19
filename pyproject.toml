@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deltakit-maestro"
-version = "0.1.1"
+version = "0.1.2"
 description = "Qoro Maestro simulator backend for Riverlane Deltakit QEC circuits"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,7 +31,12 @@ classifiers = [
 dependencies = [
     "numpy>=2.0",
     "deltakit>=0.8.0",
-    "qoro-maestro[sinter]>=0.3.14,<0.4.0",
+    "qoro-maestro[sinter]>=0.3.15,<0.4.0",
+    # Imported directly. Deltakit uses its own Stim fork (deltakit-stim) since 0.9.0,
+    # so it doesn't provide them. Sinter 1.14 needs numpy<2, and with 1.15
+    # sinter.collect fails on Maestro's numpy error counts.
+    "stim>=1.14",
+    "sinter>=1.16",
 ]
 
 [project.optional-dependencies]

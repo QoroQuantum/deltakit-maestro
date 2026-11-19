@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.1.2]
+
+- Requires `qoro-maestro>=0.3.15`. From 0.3.15, Maestro's `Statevector` and
+  `MatrixProductState` on the QCSim and Qiskit Aer engines run `T1` decay as
+  amplitude damping, one branch drawn each shot, where they reset the qubit to
+  |0⟩ before. The decoder's detector error model now twirls `T1` as amplitude
+  damping on those types, including the `MatrixProductState` picked
+  automatically for coherent noise; it twirled a reset there before, which
+  dephases about twice as fast. `Stabilizer`, the GPU and QuEST engines and the
+  other pure-state types still reset the qubit, and their twirl is unchanged.
+- Declares `stim>=1.14` and `sinter>=1.16`, which it imports. They came only
+  through `qoro-maestro[sinter]`, since Deltakit uses its own Stim fork
+  (`deltakit-stim`) from 0.9.0. Sinter 1.14 needs `numpy<2`, and with Sinter
+  1.15 `sinter.collect` fails on the numpy error counts Maestro reports. The
+  test suite passes on Stim 1.14 with Sinter 1.16.
+- The documentation is measured on Maestro 0.3.15: the example notebook is run
+  again, since seeded noise on the matrix product state is drawn differently,
+  and the guide's figures, the bond dimension table and the performance page
+  follow it. Coherent noise gives 12–19% more detection events than its twirl
+  in this run, where the 0.3.14 run gave 11–16%. The docs no longer say that
+  Deltakit installs `ldpc`: `deltakit-explorer` dropped it in 0.9.2, and the
+  `examples` extra installs it.
+
 ## [0.1.1]
 
 - No upper bound on Python of its own: `requires-python` is now `>=3.10`, and
