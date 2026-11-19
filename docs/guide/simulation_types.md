@@ -53,8 +53,10 @@ mps = MaestroBackend(
 
 That is how the [noiseless check](bond_dimension.md#checking-χ) tests the bond
 dimension. The simulation type also changes how `T1` decay runs: `DensityMatrix`
-and `MatrixProductOperator` apply amplitude damping, and every other type resets
-the qubit to |0⟩ (see [The decoder's detector error model](decoding.md)).
+and `MatrixProductOperator` apply amplitude damping, `Statevector` and
+`MatrixProductState` sample it on the QCSim and Qiskit Aer engines, and every
+other type, `Stabilizer` included, resets the qubit to |0⟩ (see
+[The decoder's detector error model](decoding.md)).
 
 ## The type is pinned
 

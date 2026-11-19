@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.2]
+
+- Requires `qoro-maestro>=0.3.15`. From 0.3.15, Maestro's `Statevector` and
+  `MatrixProductState` on the QCSim and Qiskit Aer engines run `T1` decay as
+  amplitude damping, one branch drawn each shot, where they reset the qubit to
+  |0⟩ before. The decoder's detector error model now twirls `T1` as amplitude
+  damping on those types, including the `MatrixProductState` picked
+  automatically for coherent noise; it twirled a reset there before, which
+  dephases about twice as fast. `Stabilizer`, the GPU and QuEST engines and the
+  other pure-state types still reset the qubit, and their twirl is unchanged.
+
 ## [0.1.1]
 
 - No upper bound on Python of its own: `requires-python` is now `>=3.10`, and

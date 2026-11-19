@@ -16,8 +16,8 @@ injects it:
 |---|---|
 | `p_1q`, `p_2q` depolarizing | the same `DEPOLARIZE1`, `DEPOLARIZE2` (exact) |
 | coherent over-rotation | `DEPOLARIZE1(coherent)` (exact) |
-| `T1` decay γ, on `DensityMatrix` and `MatrixProductOperator` (amplitude damping) | `PAULI_CHANNEL_1(γ/4, γ/4, (1-√(1-γ))²/4)` |
-| `T1` decay γ, on every other type, the automatic choices included (reset to \|0⟩) | `PAULI_CHANNEL_1(γ/4, γ/4, γ/4)`, which dephases about twice as fast |
+| `T1` decay γ, on `DensityMatrix` and `MatrixProductOperator`, and on `Statevector` and `MatrixProductState` (the automatic choice for coherent noise) with the QCSim or Qiskit Aer engine (amplitude damping) | `PAULI_CHANNEL_1(γ/4, γ/4, (1-√(1-γ))²/4)` |
+| `T1` decay γ, on every other type and engine, `Stabilizer` included (reset to \|0⟩) | `PAULI_CHANNEL_1(γ/4, γ/4, γ/4)`, which dephases about twice as fast |
 | `readout_error` | composed with each measurement's own flip |
 
 For `'pauli'` without overrides the DEM is the input circuit's own. For

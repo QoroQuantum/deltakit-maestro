@@ -64,10 +64,22 @@ SINTER_DECODER = "maestro"
 
 _PAULI_KEYS = {"p_1q", "p_2q", "readout_error"}
 
-# Simulation types that run T1 as amplitude damping; the rest reset the qubit.
+# Simulation types that run T1 as amplitude damping on any engine.
 _AMPLITUDE_DAMPING_TYPES = (
     maestro.SimulationType.DensityMatrix,
     maestro.SimulationType.MatrixProductOperator,
+)
+# Pure-state types that draw a branch of the damping from the state on these engines
+# (Maestro 0.3.15 and later). Every other type and engine resets the qubit to |0>.
+_TRAJECTORY_TYPES = (
+    maestro.SimulationType.Statevector,
+    maestro.SimulationType.MatrixProductState,
+)
+_TRAJECTORY_SIMULATORS = (
+    maestro.SimulatorType.QCSim,
+    maestro.SimulatorType.QiskitAer,
+    maestro.SimulatorType.CompositeQCSim,
+    maestro.SimulatorType.CompositeQiskitAer,
 )
 
 # Noise keywords that a noise_type never reads.
@@ -304,10 +316,10 @@ class MaestroBackend:
         )
 
     def _twirl(self, task_circuit: stim.Circuit, params: dict[str, Any]) -> stim.Circuit:
-        amplitude_damping = self.simulation_type in _AMPLITUDE_DAMPING_TYPES
-        return pauli_twirl_circuit(
-            task_circuit, **_layers(params), amplitude_damping=amplitude_damping
-        )
+        # Twirl T1 as the type that runs applies it: the automatic choice too.
+        layers = _layers(params)
+        amplitude_damping = _runs_amplitude_damping(self.config_for(**layers))
+        return pauli_twirl_circuit(task_circuit, **layers, amplitude_damping=amplitude_damping)
 
     def __repr__(self) -> str:
         simulation_type = "auto" if self.simulation_type is None else repr(self.simulation_type)
@@ -372,6 +384,16 @@ def _plan(
 
 def _layers(params: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in params.items() if k != "stim_noise"}
+
+
+def _runs_amplitude_damping(config: maestro.SimulatorConfig) -> bool:
+    """Whether a run with ``config`` applies ``T1`` as amplitude damping, not a reset."""
+    if config.simulation_type in _AMPLITUDE_DAMPING_TYPES:
+        return True
+    return (
+        config.simulation_type in _TRAJECTORY_TYPES
+        and config.simulator_type in _TRAJECTORY_SIMULATORS
+    )
 
 
 def _noise_model_for_task(task: sinter.Task) -> maestro.NoiseModel | None:

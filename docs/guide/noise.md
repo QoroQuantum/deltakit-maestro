@@ -50,8 +50,9 @@ raise `ValueError`, before anything is sampled: `'pauli'` doesn't read
 `coherent` sets the strength of the over-rotation that `'coherent'` puts in
 place of the gate noise and `'full'` adds to it. `t1` adds `T1` decay to
 whatever runs, after every gate: `DensityMatrix` and `MatrixProductOperator`
-apply amplitude damping γ, and every other simulation type resets the qubit to
-|0⟩ with probability γ.
+apply amplitude damping γ, `Statevector` and `MatrixProductState` draw one of its
+branches each shot on the QCSim and Qiskit Aer engines, and every other
+simulation type and engine resets the qubit to |0⟩ with probability γ.
 
 ## When the gate noise is replaced
 
