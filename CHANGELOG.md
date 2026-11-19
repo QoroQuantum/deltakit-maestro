@@ -10,6 +10,11 @@
   automatically for coherent noise; it twirled a reset there before, which
   dephases about twice as fast. `Stabilizer`, the GPU and QuEST engines and the
   other pure-state types still reset the qubit, and their twirl is unchanged.
+- Declares `stim>=1.14` and `sinter>=1.16`, which it imports. They came only
+  through `qoro-maestro[sinter]`, since Deltakit uses its own Stim fork
+  (`deltakit-stim`) from 0.9.0. Sinter 1.14 needs `numpy<2`, and with Sinter
+  1.15 `sinter.collect` fails on the numpy error counts Maestro reports. The
+  test suite passes on Stim 1.14 with Sinter 1.16.
 - The documentation is measured on Maestro 0.3.15: the example notebook is run
   again, since seeded noise on the matrix product state is drawn differently,
   and the guide's figures, the bond dimension table and the performance page

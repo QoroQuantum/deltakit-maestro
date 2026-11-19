@@ -39,6 +39,8 @@ current releases), on macOS and Linux. CI tests 3.10 to 3.14.
 
 The dependencies are `numpy`, `deltakit>=0.8.0` (tested on 0.8.0, 0.9.0 and
 0.10.2, with Python 3.12, Stim and Sinter 1.16 and PyMatching 2.4) and
-`qoro-maestro[sinter]>=0.3.15,<0.4.0`. The `examples` extra adds `pymatching`,
+`qoro-maestro[sinter]>=0.3.15,<0.4.0`, plus `stim>=1.14` and `sinter>=1.16`,
+which the package imports itself: Deltakit runs on its own Stim fork,
+`deltakit-stim`, and doesn't install them. The `examples` extra adds `pymatching`,
 which `deltakit` already pulls in through `deltakit-decode`, and `ldpc` (for
 BP-OSD), which it no longer does: `deltakit-explorer` dropped it in 0.9.2.
