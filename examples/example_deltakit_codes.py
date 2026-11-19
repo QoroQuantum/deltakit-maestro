@@ -16,7 +16,7 @@ Demonstrates:
        PyMatching against the task's detector error model.
     2. A bivariate bicycle qLDPC code, [[72,12,6]]. Its errors are not graphlike, so
        matching does not apply; it is decoded with BP-OSD from ``ldpc``, which
-       Deltakit installs.
+       the ``examples`` extra installs.
 
 Stability experiments and ``use_iswap_gates=True`` need a Deltakit cloud ``client``,
 so they are not shown. Coherent noise needs MPS, whose cost depends strongly on the

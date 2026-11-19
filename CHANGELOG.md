@@ -10,6 +10,13 @@
   automatically for coherent noise; it twirled a reset there before, which
   dephases about twice as fast. `Stabilizer`, the GPU and QuEST engines and the
   other pure-state types still reset the qubit, and their twirl is unchanged.
+- The documentation is measured on Maestro 0.3.15: the example notebook is run
+  again, since seeded noise on the matrix product state is drawn differently,
+  and the guide's figures, the bond dimension table and the performance page
+  follow it. Coherent noise gives 12–19% more detection events than its twirl
+  in this run, where the 0.3.14 run gave 11–16%. The docs no longer say that
+  Deltakit installs `ldpc`: `deltakit-explorer` dropped it in 0.9.2, and the
+  `examples` extra installs it.
 
 ## [0.1.1]
 

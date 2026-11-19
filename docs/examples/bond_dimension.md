@@ -60,7 +60,7 @@ run is pure bond-dimension truncation error. Testing across `χ` in
 
 The rotated `d=3` surface code (`17` qubits) is exact from `χ=8` onward,
 whereas the unrotated `d=3` code (`25` qubits) still truncates almost every
-shot at `χ=32` (~`0.36 s/shot`), telling you immediately that `χ=32` is not
+shot at `χ=32` (~`0.3 s/shot`), telling you immediately that `χ=32` is not
 sufficient for that qubit layout.
 
 ## Step 3: Convergence sweep under coherent noise
@@ -86,8 +86,8 @@ detection-event rate against the Stabilizer Pauli-twirl baseline:
 ```
 
 Notice the trap at `χ=8`: even though the noiseless circuit was exact at `χ=8`,
-with coherent noise `χ=8` inflates the excess over the twirl to `+0.0595`,
-more than double the converged excess (`+0.0227`) where `χ=32` and `χ=64`
+with coherent noise `χ=8` inflates the excess over the twirl to about `+0.061`,
+more than double the converged excess (about `+0.025`) where `χ=32` and `χ=64`
 agree within error bars.
 
 ## Key takeaways
