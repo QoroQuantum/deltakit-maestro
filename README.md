@@ -1,9 +1,26 @@
 # deltakit-maestro
 
+[![PyPI](https://img.shields.io/pypi/v/deltakit-maestro)](https://pypi.org/project/deltakit-maestro/)
+[![Python](https://img.shields.io/pypi/pyversions/deltakit-maestro)](https://pypi.org/project/deltakit-maestro/)
+[![Tests](https://github.com/QoroQuantum/deltakit-maestro/actions/workflows/tests.yml/badge.svg)](https://github.com/QoroQuantum/deltakit-maestro/actions/workflows/tests.yml)
+[![Docs](https://github.com/QoroQuantum/deltakit-maestro/actions/workflows/docs.yml/badge.svg)](https://qoroquantum.github.io/deltakit-maestro/)
+
 <!-- The documentation's home page (docs/index.md) shows the README from here to "end-docs". -->
 <!-- start-docs -->
 
-Qoro **Maestro** simulator backend for **Riverlane Deltakit** QEC circuits.
+Run **Riverlane Deltakit** QEC circuits on Qoro's **Maestro** simulator, including
+noise that a Clifford simulator can't run: coherent over-rotations and `T1` decay.
+The decoder gets the detector error model of the Pauli twirl of whatever is
+simulated, so a run shows what the Pauli approximation misses. On the rotated d=3
+surface code, coherent noise gives 12–19% more detection events than its Pauli
+twirl (see [coherent noise](https://qoroquantum.github.io/deltakit-maestro/guide/coherent_noise.html)).
+
+Pauli noise runs on Pauli frames, as fast as Stim. Coherent noise needs a matrix
+product state, which is practical for the rotated d=3 code; larger codes need a
+bond dimension beyond what a laptop can run (see
+[bond dimension](https://qoroquantum.github.io/deltakit-maestro/guide/bond_dimension.html)).
+
+## How it works
 
 A thin adapter over `maestro.sinter`. A Deltakit `Circuit` is converted to Stim with
 `as_stim_circuit()`:
@@ -32,14 +49,13 @@ over-rotations, which no Clifford simulator can run, need the matrix product sta
 
 ## Install
 
-Needs Python **3.10 or later**, within what Deltakit supports (3.10 to 3.15
-across its current releases). Tested on 3.10 to 3.14.
-
 ```bash
-uv venv --python 3.12 .venv
-source .venv/bin/activate
-uv pip install -e ".[examples]"     # examples extra adds pymatching
+pip install deltakit-maestro
+pip install "deltakit-maestro[examples]"   # also what the examples use: pymatching, ldpc
 ```
+
+Needs Python **3.10 or later**, within what Deltakit supports (3.10 to 3.15
+across its current releases), on macOS or Linux. Tested on 3.10 to 3.14.
 
 Verify:
 
@@ -47,10 +63,14 @@ Verify:
 python -c "from deltakit_maestro import MaestroBackend; print(MaestroBackend())"
 ```
 
+To work on the package itself, install it from a clone with
+`pip install -e ".[test,examples]"` (see
+[Contributing](https://github.com/QoroQuantum/deltakit-maestro/blob/main/CONTRIBUTING.md)).
+
 ## Quick start
 
 ```python
-# Import deltakit before pymatching: the other way round, Deltakit's circuit builders fail.
+# Import Deltakit before pymatching (see "Gotchas" in the guide).
 from deltakit.circuit.gates import PauliBasis
 from deltakit.explorer.codes import RotatedPlanarCode, css_code_memory_circuit
 from deltakit.explorer.qpu import QPU, SI1000Noise
@@ -108,6 +128,7 @@ The [guide](https://qoroquantum.github.io/deltakit-maestro/guide.html) covers ea
     coherent noise on a repetition code, a surface code sweep, every Deltakit
     code family, and the bond dimension, each shown with its output.
   - [API reference](https://qoroquantum.github.io/deltakit-maestro/api.html).
+- [PyPI](https://pypi.org/project/deltakit-maestro/).
 - [Maestro docs](https://qoroquantum.github.io/maestro/).
 - [Changelog](https://github.com/QoroQuantum/deltakit-maestro/blob/main/CHANGELOG.md).
 - [Contributing](https://github.com/QoroQuantum/deltakit-maestro/blob/main/CONTRIBUTING.md): running the tests and building the docs.

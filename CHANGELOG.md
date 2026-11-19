@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased]
+
+- The README opens with what the package is for and what it measures, says
+  where coherent noise is practical, and installs from PyPI
+  (`pip install deltakit-maestro`) rather than from a clone. It gains PyPI,
+  Python, Tests and Docs badges.
+
 ## [0.1.2]
 
 - Requires `qoro-maestro>=0.3.15`. From 0.3.15, Maestro's `Statevector` and
