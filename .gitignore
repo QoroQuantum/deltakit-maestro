@@ -17,3 +17,6 @@ docs/_build/
 docs/_generated/
 docs/jupyter_execute/
 docs/examples/*.ipynb
+
+# sinter's resume file for benchmarks/stabilizer_ler.py. Committed, a rerun would reload it instead of sampling.
+benchmarks/results/*.csv

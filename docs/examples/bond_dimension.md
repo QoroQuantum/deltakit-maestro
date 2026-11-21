@@ -12,7 +12,7 @@ assuming the default is enough.
 - **Guide:** [Bond dimension](../guide/bond_dimension.md)
 - **Key APIs:** `MaestroBackend(max_bond_dimension=..., simulation_type=...)`, `config_for()`, `twirled_circuit()`
 - **Simulator used:** Maestro MatrixProductState (`χ` from `4` to `64`)
-- **Run locally:** `python examples/example_bond_dimension.py` (~50 s)
+- **Run locally:** `python examples/example_bond_dimension.py` (~20 s)
 :::
 
 ## Step 1: Configuring `χ` and forcing MPS
@@ -46,7 +46,7 @@ run is pure bond-dimension truncation error. Testing across `χ` in
 ```{literalinclude} ../../examples/example_bond_dimension.py
 :language: python
 :start-at:     for name, circuit in codes.items():
-:end-before:     print("  The unrotated code
+:end-before:     print("  A detection event here
 :dedent: 4
 ```
 
@@ -55,13 +55,10 @@ run is pure bond-dimension truncation error. Testing across `χ` in
 ```{literalinclude} ../_generated/example_bond_dimension.txt
 :language: text
 :start-at:   code                  │ qubits
-:end-before:   The unrotated code
+:end-before:   A detection event here
 ```
 
-The rotated `d=3` surface code (`17` qubits) is exact from `χ=8` onward,
-whereas the unrotated `d=3` code (`25` qubits) still truncates almost every
-shot at `χ=32` (~`0.3 s/shot`), telling you immediately that `χ=32` is not
-sufficient for that qubit layout.
+The rotated `d=3` surface code (`17` qubits) is exact from `χ=8` onward.
 
 ## Step 3: Convergence sweep under coherent noise
 

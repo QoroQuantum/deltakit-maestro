@@ -15,8 +15,7 @@ Demonstrates:
        stabilizer simulator.
     2. The noiseless check: with no noise every detector is silent, so a detection
        event in a noiseless MPS run is truncation error. It needs no reference and
-       few shots. A rotated d=3 code passes at χ=8; an unrotated d=3 code fails at
-       every χ shown.
+       few shots. The rotated d=3 code passes from χ=8.
     3. That the noiseless check is necessary but not sufficient: coherent noise
        needs a larger χ, found by raising χ until the result stops changing. Too
        small a χ inflates the very coherent effect being measured.
@@ -35,7 +34,7 @@ import stim
 # Deltakit must be imported before pymatching: with pymatching 2.4 loaded
 # first, Deltakit's circuit builders fail with "Caught an unknown exception!".
 from deltakit.circuit.gates import PauliBasis
-from deltakit.explorer.codes import RotatedPlanarCode, UnrotatedPlanarCode, css_code_memory_circuit
+from deltakit.explorer.codes import RotatedPlanarCode, css_code_memory_circuit
 from deltakit.explorer.qpu import QPU, SI1000Noise
 
 from deltakit_maestro import MaestroBackend, to_stim
@@ -82,7 +81,6 @@ def detection_rate(dets: np.ndarray) -> tuple[float, float]:
 def main():
     codes = {
         "Rotated planar d=3": memory_circuit(RotatedPlanarCode(3, 3)),
-        "Unrotated planar d=3": memory_circuit(UnrotatedPlanarCode(3, 3)),
     }
 
     print("=" * 74)
@@ -127,10 +125,7 @@ def main():
                 f"  {name:<21} │ {circuit.num_qubits:>6} │ {chi:>3} │ "
                 f"{failed:>17.0%} {verdict:>10} │ {ms_per_shot:>7.1f}"
             )
-    print("  The unrotated code is not exact at χ=32, where it already costs ~0.3 s a")
-    print("  shot; at χ=64 (~1 s a shot, not run here) most noiseless shots are still")
-    print("  wrong. The toric code and rotated d=5 fail the same way, so coherent studies")
-    print("  of them need a far larger χ than is practical on a laptop.")
+    print("  A detection event here is truncation: raise χ until no shot has one.")
 
     # -------------------------------------------------------------------------
     # 3. Coherent noise: raise χ until the result stops changing

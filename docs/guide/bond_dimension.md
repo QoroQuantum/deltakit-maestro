@@ -45,21 +45,22 @@ Both checks on the rotated d=3 code, SI1000(0.01), 3 rounds. From the
 [coherent noise notebook](../examples/coherent_noise_d3.ipynb).
 ```
 
+Other noise can need more. With `T1` decay as well (`noise_type='full'`,
+`t1=0.005`, on SI1000(0.005)), the same code needs χ=48: at the default χ=32 it
+gives 9% too many detection events. So check χ with the noise you will run. The
+[benchmarks](../benchmarks/mps.md#bond-dimension-converging-to-the-exact-result)
+check both cases against an exact statevector simulation.
+
 [example_bond_dimension.py](../examples/bond_dimension.md) runs both checks on
-a rotated and an unrotated code.
+the rotated d=3 code.
 
-## Which codes are practical
+## Which codes are checked
 
-**Only the rotated d=3 code is practical.** Checked with the noiseless test
-above (3 rounds, SI1000(0.01) circuits):
+These docs check the MPS on two families: the rotated d=3 surface code and
+repetition codes. On the rotated d=3 code (17 qubits), the noiseless circuit is
+exact from χ=8, at about 1 ms a shot, and coherent noise needs χ=32 (above).
 
-| Code | Qubits | Smallest exact χ | Cost |
-|---|---|---|---|
-| Rotated planar d=3 | 17 | 8 | ~1 ms/shot |
-| Unrotated planar d=3 | 25 | > 64 | ~0.9 s/shot at χ=64, still 90% of shots wrong |
-| Unrotated toric d=3 | 36 | > 32 | ~1 s/shot at χ=32, every shot wrong |
-| Rotated planar d=5 | 49 | > 32 | ~1.5 s/shot at χ=32, every shot wrong |
-
-These noiseless runs have no noise to spread over cores, so they take as long on
-one. Renumbering the qubits row by row from their coordinates did not help; it
-made the rotated d=3 code need χ=64.
+A repetition code is a chain, so its MPS stays small. With coherent noise, χ=32
+agrees with χ=64 at every size up to 101 qubits (d=51), and with an exact
+statevector up to 25 qubits; the 101-qubit code takes 0.91 s a shot on 30 threads
+(see [Benchmarks](../benchmarks/mps.md#beyond-a-statevector)).

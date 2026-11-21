@@ -2,6 +2,61 @@
 
 ## [Unreleased]
 
+- A "When to use Maestro" page opens the guide, and the README gains a short
+  "When to use it" section: deltakit-maestro is for noise that isn't a Pauli
+  channel (coherent over-rotations, `T1` decay, hardware-shaped noise models),
+  and for measuring what its Pauli twirl misses. For Pauli noise alone, Stim is
+  faster on x86.
+- A Benchmarks section in the documentation, with the scripts behind it and
+  their results in `benchmarks/`:
+  - Coherent noise on the matrix product state against its Pauli twirl on
+    Stim, decoded alike (`benchmarks/coherent.py`). The twirl underestimates
+    the logical error rate by 17–40% on the rotated d=3 surface code, most at
+    the weakest noise, and on repetition codes by more the larger the code, up
+    to 45% at d=15: it overstates the error-suppression factor Λ by about the
+    6–9% excess of detection events.
+  - Pauli noise plus a small coherent part on Maestro's extended stabilizer,
+    pruned with `extended_stabilizer_amplitude_tolerance`
+    (`benchmarks/extended.py`; needs Maestro 0.3.16): against an exact
+    statevector on the rotated d=3 code, and against its Pauli twirl on
+    surface codes up to d=7 (97 qubits) and the [[72,12,6]] bivariate bicycle
+    code (144 qubits), past what a statevector or an MPS holds. A coherent
+    part a quarter the size of SI1000(0.002)'s gate noise gives 5–9% more
+    detection events than its twirl, and at d=5 at least 16% more logical
+    errors. Measured on a `c4-standard-32`.
+  - `T1` decay on Maestro's stabilizer, shot by shot, against its Pauli twirl
+    on the [[72,12,6]] and [[144,12,12]] bivariate bicycle codes (144 and 288
+    qubits), decoded alike by BP-LSD (`benchmarks/qldpc.py`, with the decoder
+    chosen by `benchmarks/qldpc_decoders.py`). The twirl gives 6–9% more
+    detection events in the first round, while the data qubits are in |0⟩,
+    under 1% more over all rounds, and the same logical error rates within
+    sampling error. `benchmarks/common.py` gains Sinter decoders for `ldpc`'s BP-OSD and
+    BP-LSD that Maestro's sampler can compile.
+  - Maestro's stabilizer against Stim: detection-event throughput on one
+    thread, on surface, repetition, toric and bivariate bicycle codes under
+    Deltakit's SI1000, SD6 and Toy noise, and logical error rates under
+    `sinter.collect` on the rotated surface code, d=3 to 7. The logical error
+    rates agree at all 54 points. On x86 Stim samples detection events 1.4–2.6×
+    faster: Maestro draws measurements faster, but converting them to
+    detection events costs more than drawing them. On Apple Silicon, where
+    Stim's wheel has no SIMD build, the two are even.
+  - Maestro's matrix product state against an exact statevector under coherent
+    noise and `T1` decay, and against Stim under Pauli noise as a correctness
+    check; its convergence in the bond dimension; and its cost against a
+    statevector's on repetition codes past what a statevector can hold.
+  - Measured on a Google Cloud `c2-standard-30` (Intel Cascade Lake) with
+    Maestro 0.3.16.
+- The Bond dimension page says that coherent noise with `T1` decay needs more
+  than the default χ=32 on the rotated d=3 code: with SI1000(0.005) and
+  `t1=0.005` it needs χ=48, and at χ=32 gives 9% too many detection events.
+- The README, the Simulation types page and the Performance page no longer
+  say Pauli frames are as fast as Stim: Stim is faster on x86, and the two are
+  even on Apple Silicon. The Performance page's table gives both, and a new
+  section says how to run several samplers on a large machine.
+- The Bond dimension page, `example_bond_dimension.py` and the coherent noise
+  notebook cover the codes the docs check the matrix product state on: the
+  rotated d=3 surface code and repetition codes. The table of other codes, and
+  the unrotated d=3 code in the example, are gone.
 - The README opens with what the package is for and what it measures, says
   where coherent noise is practical, and installs from PyPI
   (`pip install deltakit-maestro`) rather than from a clone. It gains PyPI,

@@ -14,10 +14,12 @@ With the default `simulation_type=None`:
 | `'coherent'` or `'full'` | `MatrixProductState` |
 | any run, with `simulation_type=` set | that simulation type |
 
-Pauli frames sample a Clifford circuit with Pauli noise as fast as Stim does
-(see [Performance](performance.md)). Coherent over-rotations, which no Clifford
-simulator can run, need the matrix product state (MPS), whose bond dimension has
-to be checked: see [Bond dimension](bond_dimension.md).
+Pauli frames sample a Clifford circuit with Pauli noise with the same
+statistics as Stim; Stim is faster on x86 and the two are even on Apple Silicon
+(see [Performance](performance.md) and
+[Benchmarks](../benchmarks/stabilizer.md)). Coherent over-rotations, which no
+Clifford simulator can run, need the matrix product state (MPS), whose bond
+dimension has to be checked: see [Bond dimension](bond_dimension.md).
 
 `config_for` returns the `maestro.SimulatorConfig` a run uses, so its
 `simulation_type` says which type that is:
@@ -57,6 +59,33 @@ and `MatrixProductOperator` apply amplitude damping, `Statevector` and
 `MatrixProductState` sample it on the QCSim and Qiskit Aer engines, and every
 other type, `Stabilizer` included, resets the qubit to |0⟩ (see
 [The decoder's detector error model](decoding.md)).
+
+## Small coherent errors on larger codes
+
+When the coherent part of the noise is smaller than its Pauli part, as on most
+hardware, Maestro's extended stabilizer runs codes that neither a statevector
+nor an MPS holds. It keeps the state as a Clifford acting on a sparse list of
+components: Clifford gates and Pauli noise add none, an over-rotation can add
+some, and each round of syndrome measurements removes them.
+`extended_stabilizer_amplitude_tolerance` drops the components whose amplitude
+is at most that fraction of the state's norm:
+
+```python
+ext = MaestroBackend(
+    simulation_type=maestro.SimulationType.ExtendedStabilizer,
+    extended_stabilizer_amplitude_tolerance=3e-4,
+)
+sampler = ext.compile_sampler(noisy, noise_type='full', coherent=5e-4)
+```
+
+Dropping components drops error branches, so a loose tolerance undercounts
+errors and moves a result toward its Pauli twirl. Check a result at a tighter
+tolerance: the larger the code, the tighter it needs, and each step costs
+more (see [Extended stabilizer](../benchmarks/extended.md)). With coherent
+noise as strong as the Pauli noise, the statevector is faster on d=3 and the
+extended stabilizer's cost climbs fast past it. Without the tolerance it runs
+exactly, but holds as many components as a statevector holds amplitudes. The
+tolerance is new in Maestro 0.3.16.
 
 ## The type is pinned
 

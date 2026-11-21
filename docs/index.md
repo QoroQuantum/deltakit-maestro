@@ -9,6 +9,7 @@
 :hidden:
 
 guide
+benchmarks
 examples/index
 api
 changelog
@@ -16,9 +17,12 @@ changelog
 
 ## Next steps
 
-- [Guide](guide.md): sampling and Sinter, how each run is simulated, the noise
+- [Guide](guide.md): when to use Maestro, sampling and Sinter, how each run is simulated, the noise
   modes, the decoder's detector error model, coherent noise and the bond
   dimension, and performance, one topic per page.
+- [Benchmarks](benchmarks.md): Maestro's stabilizer against Stim, and its matrix
+  product state against Stim and exact statevector simulation, on QEC
+  experiments under several noise models.
 - [Examples](examples/index.md): step-by-step walkthrough guides backed by
   runnable scripts, plus a notebook with plots of coherent noise on the d=3
   surface code.

@@ -7,6 +7,7 @@ function is in the [API reference](api.rst).
 ```{toctree}
 :maxdepth: 1
 
+guide/when_to_use
 guide/sampling
 guide/simulation_types
 guide/noise

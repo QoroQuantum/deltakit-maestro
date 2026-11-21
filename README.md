@@ -12,13 +12,30 @@ Run **Riverlane Deltakit** QEC circuits on Qoro's **Maestro** simulator, includi
 noise that a Clifford simulator can't run: coherent over-rotations and `T1` decay.
 The decoder gets the detector error model of the Pauli twirl of whatever is
 simulated, so a run shows what the Pauli approximation misses. On the rotated d=3
-surface code, coherent noise gives 12–19% more detection events than its Pauli
-twirl (see [coherent noise](https://qoroquantum.github.io/deltakit-maestro/guide/coherent_noise.html)).
+surface code, coherent noise gives 17–40% more logical errors than its Pauli
+twirl, and on repetition codes the gap grows with distance, to 45% at d=15 (see
+[benchmarks](https://qoroquantum.github.io/deltakit-maestro/benchmarks/coherent.html)).
 
-Pauli noise runs on Pauli frames, as fast as Stim. Coherent noise needs a matrix
-product state, which is practical for the rotated d=3 code; larger codes need a
-bond dimension beyond what a laptop can run (see
-[bond dimension](https://qoroquantum.github.io/deltakit-maestro/guide/bond_dimension.html)).
+Pauli noise runs on Pauli frames, with the same logical error rates as Stim,
+which samples it faster on x86 (see
+[benchmarks](https://qoroquantum.github.io/deltakit-maestro/benchmarks.html)).
+Coherent noise needs a matrix product state, which is practical for the rotated
+d=3 surface code and for repetition codes up to 101 qubits, the largest
+measured.
+
+## When to use it
+
+- To measure what the Pauli twirl misses: one run gives the real noise and the
+  detector error model of its twirl, decoded alike.
+- For coherent over-rotations, on the rotated d=3 surface code and on
+  repetition codes up to 101 qubits.
+- For `T1` decay, which isn't a Pauli channel either; the stabilizer simulator
+  runs it shot by shot.
+- For noise shaped like hardware: per-qubit and per-coupler rates, asymmetric
+  readout, directed over-rotations and ZZ crosstalk.
+
+For Pauli noise alone, Stim is faster on x86 and gives the same logical error
+rates. See [when to use Maestro](https://qoroquantum.github.io/deltakit-maestro/guide/when_to_use.html).
 
 ## How it works
 
@@ -44,7 +61,7 @@ simulation type follows the noise:
 | any run, with `simulation_type=` set | that simulation type |
 
 `backend.config_for(noise_type, **noise).simulation_type` says which one a run uses.
-Pauli frames sample a Clifford circuit with Pauli noise as fast as Stim does; coherent
+Pauli frames sample a Clifford circuit with Pauli noise with the same statistics as Stim; coherent
 over-rotations, which no Clifford simulator can run, need the matrix product state.
 
 ## Install
@@ -123,6 +140,10 @@ The [guide](https://qoroquantum.github.io/deltakit-maestro/guide.html) covers ea
     the noise modes and overrides, the decoder's detector error model, coherent
     noise and its calibration against SI1000, the MPS bond dimension,
     performance, and gotchas.
+  - [Benchmarks](https://qoroquantum.github.io/deltakit-maestro/benchmarks.html): Maestro's
+    stabilizer against Stim, for speed and logical error rates under three noise
+    models, and its matrix product state against Stim and exact statevector
+    simulation, under Pauli noise, coherent noise and `T1` decay.
   - [Examples](https://qoroquantum.github.io/deltakit-maestro/examples/): a notebook with plots of coherent noise on the
     d=3 surface code, and scripts for the noise modes, a plain Stim circuit,
     coherent noise on a repetition code, a surface code sweep, every Deltakit

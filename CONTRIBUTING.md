@@ -47,6 +47,7 @@ src/deltakit_maestro/
   maestro_backend.py    MaestroBackend, SimulationResult, Sinter glue
   noise.py              noisy Stim circuit ↔ maestro.NoiseModel and its Pauli twirl
 examples/               example scripts and the coherent_noise_d3.ipynb notebook
+benchmarks/             the scripts and results behind the docs' Benchmarks pages
 docs/                   the documentation site
 tests/
 ```

@@ -5,7 +5,8 @@ amplitudes can add up across gates before a measurement collapses them. No
 Clifford simulator can run them, so decoder studies usually replace them by
 their Pauli twirl, which has the same per-gate infidelity but no coherence.
 `noise_type='coherent'` runs the over-rotations themselves, on Maestro's matrix
-product state.
+product state. These docs check it on the rotated d=3 surface code and on
+repetition codes (see [Bond dimension](bond_dimension.md#which-codes-are-checked)).
 
 ## What `'coherent'` simulates
 
@@ -32,7 +33,10 @@ twirl = backend.simulate(backend.twirled_circuit(noisy, noise_type='coherent'), 
 The twirl runs on Pauli frames, so it can take far more shots than the MPS run.
 On the d=3 rotated surface code, coherent noise gives about 12–19% more
 detection events than its twirl, and a higher logical error probability at
-every strength tested:
+every strength tested. With 600,000 coherent shots a point, the
+[Benchmarks](../benchmarks/coherent.md) measure it to 1%: 13–21% more
+detection events and 17–40% more logical errors, from p=0.01 down to p=0.002,
+and on repetition codes a gap that grows with distance. From the notebook:
 
 ```{figure} ../_generated/coherent_vs_twirl.png
 :alt: Two plots against noise strength p from 0.003 to 0.01. Left, logical error probability on log axes: coherent noise is highest at every p, then its Pauli twirl, then SI1000. Right, coherent over twirl: the logical error ratio is 1.67 at p = 0.003 and 1.23 at p = 0.01, with wide error bars, and the detection-event ratio stays between 1.12 and 1.19.

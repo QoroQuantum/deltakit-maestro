@@ -1,0 +1,135 @@
+{
+ "environment": {
+  "date": "2026-11-21",
+  "cpu": "Intel(R) Xeon(R) CPU @ 3.10GHz",
+  "cores": 30,
+  "python": "3.12.16",
+  "versions": {
+   "deltakit-maestro": "0.1.2",
+   "qoro-maestro": "0.3.15",
+   "deltakit": "0.10.2",
+   "stim": "1.16.0",
+   "sinter": "1.16.0",
+   "pymatching": "2.4.0"
+  },
+  "qoro-maestro source": "/home/stephen_qoroquantum_net/dkm-bench/maestro at v0.3.15-53-g655dca4"
+ },
+ "decoder": {
+  "name": "BP-LSD (ldpc), LSD-CS order 2",
+  "max_iter": 100,
+  "bp_method": "minimum_sum",
+  "ms_scaling_factor": 0.625,
+  "lsd_method": "lsd_cs",
+  "lsd_order": 2
+ },
+ "limits": {
+  "[[72,12,6]]": {
+   "max_shots": 300000,
+   "max_errors": 500
+  },
+  "[[144,12,12]]": {
+   "max_shots": 40000,
+   "max_errors": 300
+  }
+ },
+ "results": [
+  {
+   "n": 72,
+   "d": 6,
+   "rounds": 6,
+   "p": 0.0005,
+   "t1": 0.0005,
+   "t1_shots": 128272,
+   "t1_errors": 503,
+   "t1_seconds": 82515.12450163669,
+   "twirl_shots": 130253,
+   "twirl_errors": 503,
+   "twirl_seconds": 75344.77174223689,
+   "z": -0.2435089642551555
+  },
+  {
+   "n": 72,
+   "d": 6,
+   "rounds": 6,
+   "p": 0.001,
+   "t1": 0.001,
+   "t1_shots": 11437,
+   "t1_errors": 506,
+   "t1_seconds": 9827.228128414969,
+   "twirl_shots": 12061,
+   "twirl_errors": 511,
+   "twirl_seconds": 11292.353976856122,
+   "z": -0.7053836734835801
+  },
+  {
+   "n": 72,
+   "d": 6,
+   "rounds": 6,
+   "p": 0.0015,
+   "t1": 0.0015,
+   "t1_shots": 3260,
+   "t1_errors": 541,
+   "t1_seconds": 3599.5152111219522,
+   "twirl_shots": 3016,
+   "twirl_errors": 507,
+   "twirl_seconds": 2964.538517067025,
+   "z": 0.2283921345441294
+  },
+  {
+   "n": 72,
+   "d": 6,
+   "rounds": 6,
+   "p": 0.002,
+   "t1": 0.002,
+   "t1_shots": 1559,
+   "t1_errors": 557,
+   "t1_seconds": 1866.9869514999737,
+   "twirl_shots": 1409,
+   "twirl_errors": 509,
+   "twirl_seconds": 1626.6782389319778,
+   "z": 0.2250281487646633
+  },
+  {
+   "n": 144,
+   "d": 12,
+   "rounds": 12,
+   "p": 0.001,
+   "t1": 0.001,
+   "t1_shots": 26941,
+   "t1_errors": 303,
+   "t1_seconds": 144568.4692773979,
+   "twirl_shots": 24403,
+   "twirl_errors": 304,
+   "twirl_seconds": 124147.83386652797,
+   "z": 1.2643625267350573
+  },
+  {
+   "n": 144,
+   "d": 12,
+   "rounds": 12,
+   "p": 0.0015,
+   "t1": 0.0015,
+   "t1_shots": 2182,
+   "t1_errors": 305,
+   "t1_seconds": 16584.104597930065,
+   "twirl_shots": 2060,
+   "twirl_errors": 304,
+   "twirl_seconds": 15287.299247140056,
+   "z": 0.7230081726362833
+  },
+  {
+   "n": 144,
+   "d": 12,
+   "rounds": 12,
+   "p": 0.002,
+   "t1": 0.002,
+   "t1_shots": 596,
+   "t1_errors": 303,
+   "t1_seconds": 6726.748655363968,
+   "twirl_shots": 620,
+   "twirl_errors": 311,
+   "twirl_seconds": 7043.869060891013,
+   "z": -0.2362712270698753
+  }
+ ]
+}
